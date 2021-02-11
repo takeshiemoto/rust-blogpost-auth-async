@@ -2,6 +2,7 @@
   "extends": ["plugin:cypress/recommended", "../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "rules": {},
+  "plugins": ["react", "import"],
   "overrides": [
     {
       "files": ["src/plugins/index.js"],

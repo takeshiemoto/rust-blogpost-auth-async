@@ -1,8 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "extends": ["plugin:import/errors"],
-  "plugins": ["@nrwl/nx", "import"],
+  "plugins": ["@nrwl/nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -16,14 +15,7 @@
               { "sourceTag": "*", "onlyDependOnLibsWithTags": ["*"] }
             ]
           }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "parserOptions": { "project": "./tsconfig.(base|lib).json" },
-      "rules": {
+        ],
         "import/no-unresolved": "off",
         "import/order": [
           "error",
@@ -40,8 +32,23 @@
               "order": "asc"
             }
           }
+        ],
+        "import/no-default-export": "error",
+        "quotes": ["error", "single"],
+        "react/jsx-curly-brace-presence": [
+          "error",
+          {
+            "props": "always",
+            "children": "never"
+          }
         ]
       }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nrwl/nx/typescript"],
+      "parserOptions": { "project": "./tsconfig.(base|lib).json" },
+      "rules": {}
     },
     {
       "files": ["*.js", "*.jsx"],
