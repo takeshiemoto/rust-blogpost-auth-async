@@ -9,7 +9,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Ienomi Keeper</title>
       </Head>
-      <div className="app">
+      <div className={'app'}>
         <Component {...pageProps} />
       </div>
     </>
