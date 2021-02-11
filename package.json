@@ -86,7 +86,8 @@
   },
   "lint-staged": {
     "{apps,libs}/**/*.{graphql,ts,tsx,json,md,scss}": [
-      "npm run format:write --uncommitted"
+      "npm run format:write --uncommitted",
+      "npm run affected:lint --parallel --uncommitted -- --fix"
     ]
   }
 }

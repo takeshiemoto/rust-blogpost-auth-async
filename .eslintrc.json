@@ -1,7 +1,8 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "extends": ["plugin:import/errors"],
+  "plugins": ["@nrwl/nx", "import"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -22,7 +23,25 @@
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nrwl/nx/typescript"],
       "parserOptions": { "project": "./tsconfig.(base|lib).json" },
-      "rules": {}
+      "rules": {
+        "import/no-unresolved": "off",
+        "import/order": [
+          "error",
+          {
+            "pathGroups": [
+              {
+                "pattern": "react",
+                "group": "external",
+                "position": "before"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": ["react"],
+            "alphabetize": {
+              "order": "asc"
+            }
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
