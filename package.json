@@ -29,6 +29,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "document-register-element": "1.13.1",
+    "firebase": "^8.2.7",
     "next": "10.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
