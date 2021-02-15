@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { AuthContext } from './_app';
 
 const StyledPage = styled.div`
   .page {
@@ -7,6 +8,7 @@ const StyledPage = styled.div`
 `;
 
 export function Index() {
+  const auth = useContext(AuthContext);
   return (
     <StyledPage>
       <h1>Ienomi Keeper</h1>

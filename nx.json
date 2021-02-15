@@ -20,6 +20,8 @@
     "ienomi-keeper-e2e": {
       "tags": [],
       "implicitDependencies": ["ienomi-keeper"]
-    }
+    },
+    "infra": { "tags": [] },
+    "repository": { "tags": [] }
   }
 }

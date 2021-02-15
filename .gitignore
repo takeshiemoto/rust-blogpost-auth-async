@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 .vercel
-apps/ienomi-keeper/.env.local
+apps/ienomi-keeper/.env

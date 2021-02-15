@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
+
 import './styles.css';
 
+export const AuthContext = createContext<{
+  uid: string | null;
+  setUid: Dispatch<SetStateAction<string>>;
+}>(null);
+
 function CustomApp({ Component, pageProps }: AppProps) {
+  const [uid, setUid] = useState<string | null>(null);
   return (
-    <>
-      <Head>
-        <title>Ienomi Keeper</title>
-      </Head>
-      <div className={'app'}>
-        <Component {...pageProps} />
-      </div>
-    </>
+    <AuthContext.Provider value={{ uid, setUid }}>
+      <Component {...pageProps} />
+    </AuthContext.Provider>
   );
 }
 
