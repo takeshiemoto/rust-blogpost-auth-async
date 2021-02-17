@@ -1,19 +1,14 @@
-import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
+import React from 'react';
 import { AppProps } from 'next/app';
 
 import './styles.css';
-
-export const AuthContext = createContext<{
-  uid: string | null;
-  setUid: Dispatch<SetStateAction<string>>;
-}>(null);
+import { AuthProvider } from '../context/Auth';
 
 function CustomApp({ Component, pageProps }: AppProps) {
-  const [uid, setUid] = useState<string | null>(null);
   return (
-    <AuthContext.Provider value={{ uid, setUid }}>
+    <AuthProvider>
       <Component {...pageProps} />
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
