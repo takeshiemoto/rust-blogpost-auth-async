@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { AuthContext } from '../context/Auth';
 
 const StyledPage = styled.div`
   .page {
@@ -7,6 +9,13 @@ const StyledPage = styled.div`
 `;
 
 export function Index() {
+  const router = useRouter();
+  const auth = useContext(AuthContext);
+
+  if (!auth.uid) {
+    router.replace('/login');
+  }
+
   return (
     <StyledPage>
       <h1>Ienomi Keeper</h1>
