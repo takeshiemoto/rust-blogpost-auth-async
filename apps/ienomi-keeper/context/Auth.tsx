@@ -7,7 +7,7 @@ const AuthContext = createContext<{
 }>(null);
 
 const AuthProvider: FC = ({ children }) => {
-  const [uid, setUid] = useState<string | null>(null);
+  const [uid, setUid] = useState<string | null | undefined>(undefined);
   useEffect(() => {
     SessionRepository.checkAlreadyLogin({
       successHandle: (userId: string) => {

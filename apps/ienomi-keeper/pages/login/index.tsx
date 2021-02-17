@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SessionRepository } from '@ienomi/repository';
-import { router } from 'next/client';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../context/Auth';
 
 type FormType = { email: string; password: string };
 
 const Login = () => {
+  const router = useRouter();
   const auth = useContext(AuthContext);
 
   const { register, handleSubmit } = useForm<FormType>({
@@ -16,13 +17,13 @@ const Login = () => {
     },
   });
 
+  useEffect(() => {
+    auth?.uid && router.replace('/');
+  }, [auth, router]);
+
   const onSubmit = ({ email, password }: FormType) => {
     SessionRepository.login({ email, password });
   };
-
-  if (auth?.uid) {
-    router.replace('/');
-  }
 
   return (
     <div>
