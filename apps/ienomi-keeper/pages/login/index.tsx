@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SessionRepository } from '@ienomi/repository';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { object, string } from 'yup';
@@ -16,7 +17,13 @@ const Login = () => {
     email: string().required('メールアドレスを入力してください'),
     password: string().required('パスワードを入力してください'),
   });
-  const { register, handleSubmit, setError, errors, formState } = useForm<FormType>({
+  const {
+    register,
+    handleSubmit,
+    setError,
+    errors,
+    formState,
+  } = useForm<FormType>({
     resolver: yupResolver(schema),
     defaultValues: {
       email: '',
@@ -56,11 +63,17 @@ const Login = () => {
           <p>{errors?.password?.message}</p>
         </div>
         <div>
-          <button onClick={handleSubmit(onSubmit)} disabled={formState.isSubmitting}>
+          <button
+            onClick={handleSubmit(onSubmit)}
+            disabled={formState.isSubmitting}
+          >
             ログイン
           </button>
         </div>
       </form>
+      <Link href={'/singup'}>
+        <a>新規会員登録</a>
+      </Link>
     </div>
   );
 };
