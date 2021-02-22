@@ -7,7 +7,13 @@ export const UserRepository = {
     );
     return response.includes('password');
   },
-  createUser: async (email: string, password: string): Promise<string> => {
+  createUserWithEmailAndPassword: async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<string> => {
     try {
       const userCredential = await Firebase.instance.auth.createUserWithEmailAndPassword(
         email,
