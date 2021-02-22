@@ -19,7 +19,7 @@ export const SignUpContext = createContext<{
 }>(null);
 
 export const SingUpProvider: FC = ({ children }) => {
-  const [user, setUser] = useState<User>(USER_INITIAL_VALUES);
+  const [user, setUser] = useState<User | null>(null);
   return (
     <SignUpContext.Provider value={{ user, setUser }}>
       {children}

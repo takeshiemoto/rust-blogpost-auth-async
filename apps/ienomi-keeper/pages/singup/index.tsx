@@ -24,11 +24,12 @@ const Signup = () => {
     trigger,
     setError,
     handleSubmit,
+    formState,
   } = useForm<FormType>({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: user.email,
-      password: user.password,
+      email: user?.email,
+      password: user?.password,
     },
   });
 
@@ -73,7 +74,7 @@ const Signup = () => {
             <p>{errors?.password?.message}</p>
           </div>
           <div>
-            <button>確認画面へ</button>
+            <button disabled={formState.isSubmitting}>確認画面へ</button>
           </div>
         </div>
       </form>
