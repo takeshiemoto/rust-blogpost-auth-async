@@ -1,29 +1,24 @@
-import React, { useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { SignUpContext } from '../../context/SingUp';
+import { SignUpContext } from './SignupContext';
 
-export const Complete = () => {
+export const SignupComplete: FC = () => {
   const router = useRouter();
   const { user } = useContext(SignUpContext);
 
   useEffect(() => {
-    !user && router.push('/singup');
+    !user && router.push('/signup');
   }, [router, user]);
 
   return (
     <div>
       {user && (
         <>
-          <h2>Complete</h2>
           <p>登録が完了しました</p>
-          <Link href={'/'}>
-            <a>トップページへ</a>
-          </Link>
+          <Link href={'/'}>トップページへ</Link>
         </>
       )}
     </div>
   );
 };
-
-export default Complete;

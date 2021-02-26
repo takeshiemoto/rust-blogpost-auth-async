@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 
-type User = { email: string; password: string };
+export type User = { email: string; password: string };
 
 export const USER_INITIAL_VALUES = {
   email: '',

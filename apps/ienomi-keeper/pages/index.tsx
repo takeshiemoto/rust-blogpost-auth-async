@@ -1,8 +1,7 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { SessionRepository } from '@ienomi/repository';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { AuthContext } from '../context/Auth';
+import { useRequireAuth } from '../hooks/useRequreAuth';
 
 const StyledPage = styled.div`
   .page {
@@ -10,16 +9,15 @@ const StyledPage = styled.div`
 `;
 
 export function Index() {
-  const router = useRouter();
-  const auth = useContext(AuthContext);
-
-  useEffect(() => {
-    auth?.uid === null && router.replace('/login');
-  }, [auth, router]);
+  const auth = useRequireAuth();
 
   const logout = useCallback(() => {
     SessionRepository.logout();
   }, []);
+
+  if (!auth) {
+    return <div>Loading</div>;
+  }
 
   return (
     <StyledPage>

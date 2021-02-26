@@ -18,7 +18,9 @@ const AuthProvider: FC = ({ children }) => {
       },
     });
   }, []);
-  return <AuthContext.Provider value={{ uid }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ uid }}>{children}</AuthContext.Provider>
+  );
 };
 
 export { AuthContext, AuthProvider };
