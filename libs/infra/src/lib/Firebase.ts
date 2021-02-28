@@ -1,9 +1,11 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/firestore';
 
 export class Firebase {
   private static _instance: Firebase;
   private _auth: firebase.auth.Auth;
+  private _db: firebase.firestore.Firestore;
 
   private constructor() {
     firebase.initializeApp({
@@ -16,6 +18,7 @@ export class Firebase {
     });
 
     this._auth = firebase.auth();
+    this._db = firebase.firestore();
   }
 
   static get instance(): Firebase {
@@ -31,5 +34,17 @@ export class Firebase {
     }
     this._auth = firebase.auth();
     return this._auth;
+  }
+
+  public get db() {
+    if (this._db) {
+      return this._db;
+    }
+    this._db = firebase.firestore();
+    return this._db;
+  }
+
+  public serverTimeStamp() {
+    return firebase.firestore.FieldValue.serverTimestamp();
   }
 }
