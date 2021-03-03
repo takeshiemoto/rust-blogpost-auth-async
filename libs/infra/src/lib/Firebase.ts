@@ -47,4 +47,8 @@ export class Firebase {
   public serverTimeStamp() {
     return firebase.firestore.FieldValue.serverTimestamp();
   }
+
+  public get firestore() {
+    return firebase.firestore;
+  }
 }

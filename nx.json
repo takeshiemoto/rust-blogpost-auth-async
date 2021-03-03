@@ -22,6 +22,7 @@
       "implicitDependencies": ["ienomi-keeper"]
     },
     "infra": { "tags": [] },
-    "repository": { "tags": [] }
+    "repository": { "tags": [] },
+    "entity": { "tags": [] }
   }
 }
