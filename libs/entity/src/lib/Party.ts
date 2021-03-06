@@ -1,8 +1,8 @@
 export interface Party {
-  id: string;
+  id?: string;
   name: string;
-  startTime: number;
-  endTime: number;
-  createdAt: number;
-  updateAt: number;
+  startTime: Date;
+  endTime: Date;
+  createdAt?: Date;
+  updateAt?: Date;
 }

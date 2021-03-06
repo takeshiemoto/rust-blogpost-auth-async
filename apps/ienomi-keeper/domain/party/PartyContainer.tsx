@@ -1,10 +1,17 @@
-import React, { FC } from 'react';
+import React, { useEffect, useState, VFC } from 'react';
+import { Party } from '@ienomi/entity';
+import { PartyRepository } from '@ienomi/repository';
+import Link from 'next/link';
 import { useRequireAuth } from '../../hooks/useRequreAuth';
-import { useParties } from './PartyHooksContext';
 
-export const PartyContainer: FC = () => {
+export const PartyContainer: VFC = () => {
+  const [parties, setParties] = useState<Party[]>([]);
   const auth = useRequireAuth();
-  const { parties, loading, error } = useParties();
+
+  useEffect(() => {
+    PartyRepository.getAll().then((parties) => setParties(parties));
+  }, []);
+
   if (!auth) {
     return <div>Loading</div>;
   }
@@ -12,6 +19,10 @@ export const PartyContainer: FC = () => {
   return (
     <div>
       <h2>Party</h2>
+      <Link href={'/party/new'}>New Party</Link>
+      {parties.map((party) => (
+        <div key={party.id}>{party.name}</div>
+      ))}
     </div>
   );
 };
