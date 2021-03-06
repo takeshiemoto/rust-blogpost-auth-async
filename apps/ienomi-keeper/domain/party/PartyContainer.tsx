@@ -19,7 +19,7 @@ export const PartyContainer: VFC = () => {
   return (
     <div>
       <h2>Party</h2>
-      <Link href={'/party/new'}>New Party</Link>
+      <Link href={'/party/new'}>飲み会を始める</Link>
       {parties.map((party) => (
         <div key={party.id}>{party.name}</div>
       ))}

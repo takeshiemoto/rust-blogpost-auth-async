@@ -1,5 +1,6 @@
 import React, { VFC } from 'react';
 import { PartyRepository } from '@ienomi/repository';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
 type FormType = {
@@ -13,15 +14,14 @@ export const PartyNewContainer: VFC = () => {
   const submit = ({ name }: FormType) => {
     PartyRepository.create({
       name: name,
-      // TODO 時間指定できるようにする
       startTime: new Date(),
-      endTime: new Date(),
     });
   };
 
   return (
     <div>
       <h2>New Party</h2>
+      <Link href={'/party'}>一覧に戻る</Link>
       <form onSubmit={handleSubmit(submit)}>
         <div>
           <label>
@@ -29,19 +29,7 @@ export const PartyNewContainer: VFC = () => {
             <input type={'text'} ref={register} name={'name'} />
           </label>
         </div>
-        <div>
-          <label>
-            Start
-            <input type={'date'} ref={register} name={'startTime'} />
-          </label>
-        </div>
-        <div>
-          <label>
-            End
-            <input type={'date'} ref={register} name={'endTime'} />
-          </label>
-        </div>
-        <button>Add</button>
+        <button>START</button>
       </form>
     </div>
   );
