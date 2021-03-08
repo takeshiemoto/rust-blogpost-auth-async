@@ -45,7 +45,7 @@ export class Firebase {
   }
 
   public serverTimeStamp() {
-    return firebase.firestore.FieldValue.serverTimestamp();
+    return firebase.firestore.Timestamp.now().toDate();
   }
 
   public get firestore() {

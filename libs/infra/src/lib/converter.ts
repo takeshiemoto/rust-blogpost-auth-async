@@ -4,16 +4,12 @@ import { Firebase } from './Firebase';
 import { PartyFields } from './type';
 
 export const partyConverter = {
-  toFirestore: (party: {
-    name: string;
-    startTime: Date;
-    endTime: Date;
-  }): firebase.firestore.DocumentData => {
+  toFirestore: (party: { name: string }): firebase.firestore.DocumentData => {
     return {
       name: party.name,
-      startTime: party.startTime,
-      endTime: party.endTime,
+      startTime: Firebase.instance.serverTimeStamp(),
       createdAt: Firebase.instance.serverTimeStamp(),
+      endTime: null,
       updateAt: null,
     };
   },
@@ -26,7 +22,7 @@ export const partyConverter = {
       id: snapshot.id,
       name: data.name,
       startTime: data.startTime.toDate(),
-      endTime: data.endTime.toDate(),
+      endTime: data.endTime && data.endTime.toDate(),
       createdAt: data.createdAt.toDate(),
       updateAt: data.createdAt.toDate(),
     };

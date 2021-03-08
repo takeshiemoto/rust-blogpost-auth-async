@@ -1,16 +1,9 @@
-import React, { useEffect, useState, VFC } from 'react';
-import { Party } from '@ienomi/entity';
-import { PartyRepository } from '@ienomi/repository';
+import React, { VFC } from 'react';
 import Link from 'next/link';
 import { useRequireAuth } from '../../hooks/useRequreAuth';
 
 export const PartyContainer: VFC = () => {
-  const [parties, setParties] = useState<Party[]>([]);
   const auth = useRequireAuth();
-
-  useEffect(() => {
-    PartyRepository.getAll().then((parties) => setParties(parties));
-  }, []);
 
   if (!auth) {
     return <div>Loading</div>;
@@ -19,10 +12,15 @@ export const PartyContainer: VFC = () => {
   return (
     <div>
       <h2>Party</h2>
-      <Link href={'/party/new'}>飲み会を始める</Link>
-      {parties.map((party) => (
-        <div key={party.id}>{party.name}</div>
-      ))}
+      <h3>Menu</h3>
+      <ul>
+        <li>
+          <Link href={'/party/new'}>新規作成</Link>
+        </li>
+        <li>
+          <Link href={'/party/history'}>履歴</Link>
+        </li>
+      </ul>
     </div>
   );
 };

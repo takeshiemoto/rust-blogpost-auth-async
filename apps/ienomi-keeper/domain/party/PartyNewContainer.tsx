@@ -1,6 +1,7 @@
 import React, { VFC } from 'react';
 import { PartyRepository } from '@ienomi/repository';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 type FormType = {
@@ -10,12 +11,13 @@ type FormType = {
 };
 
 export const PartyNewContainer: VFC = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<FormType>();
-  const submit = ({ name }: FormType) => {
-    PartyRepository.create({
+  const submit = async ({ name }: FormType) => {
+    const response = await PartyRepository.create({
       name: name,
-      startTime: new Date(),
     });
+    router.push(`/party/${response.id}`);
   };
 
   return (
