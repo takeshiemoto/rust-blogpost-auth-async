@@ -3,6 +3,7 @@ import { Firebase, FIRESTORE_KEY, partyConverter } from '@ienomi/infra';
 
 export const PartyRepository = {
   getAll: async (): Promise<Party[]> => {
+    // FireStoreからUIに変換するコードを書いても良い
     const clientRef = Firebase.instance.db
       .collection(FIRESTORE_KEY.PARTIES)
       .withConverter(partyConverter);
@@ -18,11 +19,11 @@ export const PartyRepository = {
     return snapshot.data();
   },
   create: async (party: Party): Promise<{ id: string }> => {
+    // UIのIFからFireStoreへのIFに変換するコードを書いて良い
     const docRef = await Firebase.instance.db
       .collection(FIRESTORE_KEY.PARTIES)
       .withConverter(partyConverter)
       .add(party);
-
     return { id: docRef.id };
   },
   update: async (id: string, party: Party): Promise<void> => {
