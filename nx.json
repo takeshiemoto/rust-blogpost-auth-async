@@ -23,6 +23,7 @@
     },
     "infra": { "tags": [] },
     "repository": { "tags": [] },
-    "entity": { "tags": [] }
+    "entity": { "tags": [] },
+    "const": { "tags": [] }
   }
 }

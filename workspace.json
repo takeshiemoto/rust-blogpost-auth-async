@@ -135,6 +135,25 @@
           }
         }
       }
+    },
+    "const": {
+      "root": "libs/const",
+      "sourceRoot": "libs/const/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/const/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/const"],
+          "options": {
+            "jestConfig": "libs/const/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
