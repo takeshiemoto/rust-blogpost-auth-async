@@ -1,29 +1,28 @@
 import React, { useCallback } from 'react';
+import { Button, Flex, Heading, View } from '@adobe/react-spectrum';
 import { SessionRepository } from '@ienomi/repository';
-import styled from 'styled-components';
 import { useRequireAuth } from '../hooks/useRequreAuth';
-
-const StyledPage = styled.div`
-  .page {
-  }
-`;
 
 export function Index() {
   const auth = useRequireAuth();
 
   const logout = useCallback(() => {
-    SessionRepository.logout();
+    SessionRepository.signOut();
   }, []);
 
-  if (!auth) {
-    return <div>Loading</div>;
+  if (!auth.user) {
+    return <div>Loading...</div>;
   }
 
   return (
-    <StyledPage>
-      <h1>Ienomi Keeper</h1>
-      <button onClick={logout}>ログアウト</button>
-    </StyledPage>
+    <Flex minHeight={'100vh'}>
+      <View>
+        <Heading level={3}>ようこそ {auth.user.name} さん</Heading>
+        <Button onPress={logout} variant={'primary'}>
+          ログアウト
+        </Button>
+      </View>
+    </Flex>
   );
 }
 

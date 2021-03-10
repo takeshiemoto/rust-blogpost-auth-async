@@ -21,7 +21,7 @@ import {
 import { object, string } from 'yup';
 import { FormType } from './type';
 
-export const LoginForm = () => {
+export const SignInForm = () => {
   const [isOpen, setModalState] = useState<ModalState>(MODAL_STATE.CLOSE);
 
   const schema = object().shape({
@@ -46,7 +46,7 @@ export const LoginForm = () => {
   const onValid: SubmitHandler<FormType> = useCallback(
     async ({ email, password }) => {
       try {
-        await SessionRepository.login({ email, password });
+        await SessionRepository.signIn({ email, password });
       } catch (error) {
         setError('email', {
           type: 'auth',
@@ -107,7 +107,7 @@ export const LoginForm = () => {
           type={'submit'}
           isDisabled={formState.isSubmitting}
         >
-          ログイン
+          サインイン
         </Button>
       </Form>
       <DialogContainer onDismiss={() => setModalState(MODAL_STATE.CLOSE)}>
