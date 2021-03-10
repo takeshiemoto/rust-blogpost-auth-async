@@ -2,15 +2,15 @@ import React, { FC, useContext, useEffect } from 'react';
 import { Flex, Heading, View } from '@adobe/react-spectrum';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../app/AuthContext';
-import { LoginForm } from './LoginForm';
+import { SignInForm } from './SignInForm';
 
-export const LoginContainer: FC = () => {
+export const SignInContainer: FC = () => {
   const router = useRouter();
-  const user = useContext(AuthContext);
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
-    user && router.replace('/party');
-  }, [user, router]);
+    auth.user && router.push('/');
+  }, [auth, router]);
 
   return (
     <Flex
@@ -20,10 +20,10 @@ export const LoginContainer: FC = () => {
       minHeight={'100vh'}
     >
       <View>
-        <Heading level={2}>Login</Heading>
+        <Heading level={2}>IENOMI</Heading>
       </View>
       <View>
-        <LoginForm />
+        <SignInForm />
       </View>
     </Flex>
   );

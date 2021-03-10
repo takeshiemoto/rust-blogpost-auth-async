@@ -4,7 +4,7 @@ import { User } from '@ienomi/entity';
 import { SessionRepository } from '@ienomi/repository';
 
 const AuthContext = createContext<{
-  user: User | null;
+  user: User | null | undefined;
 }>(null);
 
 const AuthProvider: FC = ({ children }) => {
