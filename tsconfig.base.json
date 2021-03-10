@@ -17,7 +17,8 @@
     "paths": {
       "@ienomi/infra": ["libs/infra/src/index.ts"],
       "@ienomi/repository": ["libs/repository/src/index.ts"],
-      "@ienomi/entity": ["libs/entity/src/index.ts"]
+      "@ienomi/entity": ["libs/entity/src/index.ts"],
+      "@ienomi/const": ["libs/const/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

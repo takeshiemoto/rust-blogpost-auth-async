@@ -9,7 +9,7 @@ import { SingUpProvider } from '../domain/singup/SignupContext';
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <SSRProvider>
-      <Provider theme={defaultTheme}>
+      <Provider theme={defaultTheme} colorScheme={'dark'}>
         <AuthProvider>
           <SingUpProvider>
             <Component {...pageProps} />

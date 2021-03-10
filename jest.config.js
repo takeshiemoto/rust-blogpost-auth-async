@@ -4,5 +4,6 @@ module.exports = {
     '<rootDir>/libs/infra',
     '<rootDir>/libs/repository',
     '<rootDir>/libs/entity',
+    '<rootDir>/libs/const',
   ],
 };

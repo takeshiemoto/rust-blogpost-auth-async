@@ -1,11 +1,29 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+import {
+  AlertDialog,
+  Button,
+  DialogContainer,
+  Form,
+  StatusLight,
+  TextField,
+} from '@adobe/react-spectrum';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { MODAL_STATE, ModalState } from '@ienomi/const';
 import { SessionRepository } from '@ienomi/repository';
-import { useForm } from 'react-hook-form';
+import {
+  useForm,
+  Controller,
+  SubmitErrorHandler,
+  SubmitHandler,
+  FieldError,
+  DeepMap,
+} from 'react-hook-form';
 import { object, string } from 'yup';
 import { FormType } from './type';
 
 export const LoginForm = () => {
+  const [isOpen, setModalState] = useState<ModalState>(MODAL_STATE.CLOSE);
+
   const schema = object().shape({
     email: string().required('メールアドレスを入力してください'),
     password: string().required('パスワードを入力してください'),
@@ -13,10 +31,10 @@ export const LoginForm = () => {
 
   const {
     setError,
-    register,
     errors,
     handleSubmit,
     formState,
+    control,
   } = useForm<FormType>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -25,8 +43,8 @@ export const LoginForm = () => {
     },
   });
 
-  const submit = useCallback(
-    async ({ email, password }: FormType) => {
+  const onValid: SubmitHandler<FormType> = useCallback(
+    async ({ email, password }) => {
       try {
         await SessionRepository.login({ email, password });
       } catch (error) {
@@ -38,29 +56,74 @@ export const LoginForm = () => {
           type: 'auth',
           message: 'メールアドレスまたはパスワードが正しくありません',
         });
+
+        setModalState(MODAL_STATE.OPEN);
       }
     },
     [setError]
   );
 
+  const onInValid: SubmitErrorHandler<FormType> = useCallback(() => {
+    setModalState(MODAL_STATE.OPEN);
+  }, []);
+
   return (
-    <form>
-      <div>
-        <input type={'text'} name={'email'} ref={register} />
-        <p>{errors?.email?.message}</p>
-      </div>
-      <div>
-        <input type={'password'} name={'password'} ref={register} />
-        <p>{errors?.password?.message}</p>
-      </div>
-      <div>
-        <button
-          onClick={handleSubmit(submit)}
-          disabled={formState.isSubmitting}
+    <>
+      <Form onSubmit={handleSubmit(onValid, onInValid)}>
+        <Controller
+          name={'email'}
+          control={control}
+          render={({ onChange, value }) => (
+            <TextField
+              label={'メールアドレス'}
+              width={'size-3600'}
+              maxWidth={'100%'}
+              placeholder={'abc@ienomi.jp'}
+              onChange={onChange}
+              value={value}
+              validationState={errors?.email ? 'invalid' : undefined}
+            />
+          )}
+        />
+        <Controller
+          name={'password'}
+          control={control}
+          render={({ onChange, value }) => (
+            <TextField
+              type={'password'}
+              label={'パスワード'}
+              width={'size-3600'}
+              maxWidth={'100%'}
+              placeholder={'1234'}
+              onChange={onChange}
+              value={value}
+              validationState={errors?.password ? 'invalid' : undefined}
+            />
+          )}
+        />
+        <Button
+          variant={'cta'}
+          marginTop={'size-400'}
+          type={'submit'}
+          isDisabled={formState.isSubmitting}
         >
           ログイン
-        </button>
-      </div>
-    </form>
+        </Button>
+      </Form>
+      <DialogContainer onDismiss={() => setModalState(MODAL_STATE.CLOSE)}>
+        {isOpen && (
+          <AlertDialog
+            title={'認証に失敗しました'}
+            primaryActionLabel={'閉じる'}
+          >
+            {Object.keys(errors).map((field) => (
+              <StatusLight key={field} variant={'negative'}>
+                {(errors[field] as DeepMap<FieldError, FormType>).message}
+              </StatusLight>
+            ))}
+          </AlertDialog>
+        )}
+      </DialogContainer>
+    </>
   );
 };
