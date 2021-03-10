@@ -1,4 +1,5 @@
-import { Firebase } from '@ienomi/infra';
+import { User } from '@ienomi/entity';
+import { Firebase, FIRESTORE_KEY } from '@ienomi/infra';
 
 export const UserRepository = {
   checkAlreadyRegistered: async (email: string): Promise<boolean> => {
@@ -19,6 +20,13 @@ export const UserRepository = {
         email,
         password
       );
+      await Firebase.instance.db
+        .collection(FIRESTORE_KEY.USERS)
+        .doc(userCredential.user.uid)
+        .set({
+          email,
+          name: 'ななし',
+        });
       return userCredential.user.uid;
     } catch (e) {
       console.error(e);

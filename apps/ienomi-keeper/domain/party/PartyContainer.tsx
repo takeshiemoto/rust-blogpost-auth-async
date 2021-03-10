@@ -13,6 +13,7 @@ export const PartyContainer: VFC = () => {
     <div>
       <h2>Party</h2>
       <h3>Menu</h3>
+      <p>ようこそ {auth.user.name}さん</p>
       <ul>
         <li>
           <Link href={'/party/new'}>新規作成</Link>

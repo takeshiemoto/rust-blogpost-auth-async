@@ -1,27 +1,16 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
-import {
-  AlertDialog,
-  Button,
-  DialogContainer,
-  Flex,
-  Form,
-  Heading,
-  TextField,
-  View,
-} from '@adobe/react-spectrum';
-import { Link as RSPLink } from '@adobe/react-spectrum';
-import Link from 'next/link';
+import React, { FC, useContext, useEffect } from 'react';
+import { Flex, Heading, View } from '@adobe/react-spectrum';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../app/AuthContext';
 import { LoginForm } from './LoginForm';
 
 export const LoginContainer: FC = () => {
   const router = useRouter();
-  const auth = useContext(AuthContext);
+  const user = useContext(AuthContext);
 
   useEffect(() => {
-    auth?.uid && router.replace('/party');
-  }, [auth, router]);
+    user && router.replace('/party');
+  }, [user, router]);
 
   return (
     <Flex

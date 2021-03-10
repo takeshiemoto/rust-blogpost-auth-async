@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { createContext, FC } from 'react';
+import { User } from '@ienomi/entity';
 import { SessionRepository } from '@ienomi/repository';
 
 const AuthContext = createContext<{
-  uid: string | null;
+  user: User | null;
 }>(null);
 
 const AuthProvider: FC = ({ children }) => {
-  const [uid, setUid] = useState<string | null | undefined>(undefined);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
   useEffect(() => {
     SessionRepository.checkAlreadyLogin({
-      successHandle: (userId: string) => {
-        setUid(userId);
+      successHandle: (user: User) => {
+        setUser(user);
       },
       errorHandle: () => {
-        setUid(null);
+        setUser(null);
       },
     });
   }, []);
   return (
-    <AuthContext.Provider value={{ uid }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 };
 

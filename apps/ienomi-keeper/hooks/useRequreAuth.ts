@@ -7,7 +7,7 @@ export const useRequireAuth = () => {
   const auth = useContext(AuthContext);
 
   useEffect(() => {
-    auth?.uid === null && router.replace('/login');
+    auth?.user === null && router.replace('/login');
   }, [auth, router]);
 
   return auth;
