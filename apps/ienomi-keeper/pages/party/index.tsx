@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Flex, Form, Slider, TextField } from '@adobe/react-spectrum';
+import { format } from 'date-fns';
 import { Loading } from '../../components/Loading';
 import { usePartyForm } from '../../hooks/usePartyForm';
 import { useRequireAuth } from '../../hooks/useRequreAuth';
@@ -12,6 +13,8 @@ const Party = () => {
     errors,
     control,
     isSubmitting,
+    endTime,
+    onChangeEnd,
     Controller,
     DEFAULT_TIME,
     MAX_TIME,
@@ -27,6 +30,7 @@ const Party = () => {
       minHeight={'100vh'}
       justifyContent={'center'}
       alignItems={'center'}
+      direction={'column'}
       width={'100%'}
     >
       <Form maxWidth={'size-3000'} onSubmit={submit}>
@@ -55,11 +59,15 @@ const Party = () => {
               minValue={DEFAULT_TIME}
               maxValue={MAX_TIME}
               step={STEP_TIME}
+              onChangeEnd={onChangeEnd}
               onChange={onChange}
               value={value}
             />
           )}
         />
+        <p style={{ textAlign: 'center' }}>
+          End of Time: {format(endTime, 'HH:mm')}
+        </p>
         <Button variant={'cta'} marginTop={'size-300'} type={'submit'}>
           START
         </Button>

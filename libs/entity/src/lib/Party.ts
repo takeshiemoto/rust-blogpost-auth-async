@@ -5,6 +5,7 @@ export type Party = {
   name: string;
   time: number;
   startTime: Date;
+  endTime: Date;
 };
 
 export type PartyResponse = {

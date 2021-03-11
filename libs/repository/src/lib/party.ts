@@ -9,7 +9,9 @@ export const PartyRepository = {
 
     const snapshot = await docRef.get();
     const data = snapshot.data() as Party & { userRef: DocRef<User> };
+
     const startTime = ((data.startTime as unknown) as Timestamp).toDate();
+    const endTime = ((data.endTime as unknown) as Timestamp).toDate();
 
     const userSnap = await data.userRef.get();
     const user = userSnap.data();
@@ -22,6 +24,7 @@ export const PartyRepository = {
         name: data.name,
         time: data.time,
         startTime,
+        endTime,
       },
     };
   },
