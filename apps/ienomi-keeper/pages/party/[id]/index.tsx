@@ -11,11 +11,13 @@ const PartyDetail = () => {
 
   useEffect(() => {
     const id = router.query['id'] as string;
-    id &&
-      PartyRepository.geyById(id).then(({ user, party }) => {
-        setUser(user);
-        setParty(party);
-      });
+    if (!id) {
+      return;
+    }
+    PartyRepository.geyById(id).then(({ user, party }) => {
+      setUser(user);
+      setParty(party);
+    });
   }, [router.query]);
 
   return (
@@ -27,7 +29,6 @@ const PartyDetail = () => {
     >
       <View>
         <Heading level={2}>{party?.name}</Heading>
-        <Text>{party?.time}</Text>
       </View>
       <View marginTop={'size-200'}>
         <Button variant={'secondary'} onPress={() => router.push('/')}>
