@@ -11,13 +11,14 @@ const Party = () => {
     submit,
     errors,
     control,
+    isSubmitting,
     Controller,
     DEFAULT_TIME,
     MAX_TIME,
     STEP_TIME,
   } = usePartyForm();
 
-  if (!auth.user) {
+  if (!auth.user || isSubmitting) {
     return <Loading />;
   }
 

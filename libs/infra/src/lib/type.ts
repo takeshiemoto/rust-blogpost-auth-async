@@ -8,3 +8,6 @@ export type PartyFields = {
   createdAt: firebase.firestore.Timestamp;
   updateAt: firebase.firestore.Timestamp;
 };
+
+export type DocRef<T> = firebase.firestore.DocumentReference<T>;
+export type Timestamp = firebase.firestore.Timestamp;

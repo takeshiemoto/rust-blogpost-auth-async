@@ -1,35 +1,40 @@
-import { Party } from '@ienomi/entity';
-import { Firebase, FIRESTORE_KEY, partyConverter } from '@ienomi/infra';
+import { Party, PartyResponse, User } from '@ienomi/entity';
+import { DocRef, Firebase, FIRESTORE_KEY, Timestamp } from '@ienomi/infra';
 
 export const PartyRepository = {
-  getAll: async (): Promise<Party[]> => {
-    // FireStoreからUIに変換するコードを書いても良い
-    const clientRef = Firebase.instance.db
-      .collection(FIRESTORE_KEY.PARTIES)
-      .withConverter(partyConverter);
-    const snapshot = await clientRef.get();
-    return snapshot.docs.map((d) => d.data());
-  },
-  getById: async (id: string): Promise<Party> => {
-    const clientRef = Firebase.instance.db
-      .collection(FIRESTORE_KEY.PARTIES)
-      .withConverter(partyConverter)
-      .doc(id);
-    const snapshot = await clientRef.get();
-    return snapshot.data();
-  },
-  create: async (party: Party): Promise<{ id: string }> => {
-    // UIのIFからFireStoreへのIFに変換するコードを書いて良い
+  geyById: async (id: string): Promise<PartyResponse> => {
     const docRef = await Firebase.instance.db
       .collection(FIRESTORE_KEY.PARTIES)
-      .withConverter(partyConverter)
-      .add(party);
-    return { id: docRef.id };
-  },
-  update: async (id: string, party: Party): Promise<void> => {
-    const clientRef = Firebase.instance.db
-      .collection(FIRESTORE_KEY.PARTIES)
       .doc(id);
-    await clientRef.update(party);
+
+    const snapshot = await docRef.get();
+    const data = snapshot.data() as Party & { userRef: DocRef<User> };
+    const startTime = ((data.startTime as unknown) as Timestamp).toDate();
+
+    const userSnap = await data.userRef.get();
+    const user = userSnap.data();
+
+    return {
+      user,
+      party: {
+        id: snapshot.id,
+        userId: user.id,
+        name: data.name,
+        time: data.time,
+        startTime,
+      },
+    };
+  },
+  create: async (party: Party): Promise<{ id: string }> => {
+    const userRef = await Firebase.instance.db
+      .collection(FIRESTORE_KEY.USERS)
+      .doc(party.userId);
+    const docRef = await Firebase.instance.db
+      .collection(FIRESTORE_KEY.PARTIES)
+      .add({
+        ...party,
+        userRef,
+      });
+    return { id: docRef.id };
   },
 };
