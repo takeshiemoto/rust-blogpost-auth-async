@@ -1,15 +1,13 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRepository } from '@ienomi/repository';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { object, string } from 'yup';
-import { SignUpContext } from './SignupContext';
 import { FormType } from './type';
 
 export const SignupForm = () => {
   const router = useRouter();
-  const { setUser, user } = useContext(SignUpContext);
 
   const schema = object().shape({
     email: string().required(),
@@ -26,13 +24,13 @@ export const SignupForm = () => {
   } = useForm<FormType>({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: user?.email,
-      password: user?.password,
+      email: '',
+      password: '',
     },
   });
 
-  const confirmation = useCallback(
-    async ({ email, password }: FormType) => {
+  const onValid: SubmitHandler<FormType> = useCallback(
+    async ({ email, password }) => {
       const isAlreadyRegistered = await UserRepository.checkAlreadyRegistered(
         email
       );
@@ -45,15 +43,18 @@ export const SignupForm = () => {
         return;
       }
 
-      setUser({ email, password });
+      await UserRepository.createUserWithEmailAndPassword({
+        email,
+        password,
+      });
 
-      router.push('/signup/confirm');
+      router.push('/');
     },
-    [router, setError, setUser]
+    [router, setError]
   );
 
   return (
-    <form onSubmit={handleSubmit(confirmation)}>
+    <form onSubmit={handleSubmit(onValid)}>
       <div>
         <div>
           <input
@@ -74,7 +75,7 @@ export const SignupForm = () => {
           <p>{errors?.password?.message}</p>
         </div>
         <div>
-          <button disabled={formState.isSubmitting}>確認画面へ</button>
+          <button disabled={formState.isSubmitting}>登録</button>
         </div>
       </div>
     </form>

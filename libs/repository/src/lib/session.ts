@@ -33,9 +33,13 @@ export const SessionRepository = {
         .doc(auth.uid);
 
       const snapshot = await clientRef.get();
+      const id = snapshot.id;
       const user = snapshot.data() as User;
 
-      successHandle(user);
+      successHandle({
+        ...user,
+        id,
+      });
       return;
     });
   },

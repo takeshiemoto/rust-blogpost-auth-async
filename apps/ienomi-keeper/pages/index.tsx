@@ -1,26 +1,48 @@
 import React, { useCallback } from 'react';
-import { Button, Flex, Heading, View } from '@adobe/react-spectrum';
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  Heading,
+  View,
+} from '@adobe/react-spectrum';
 import { SessionRepository } from '@ienomi/repository';
+import { useRouter } from 'next/router';
+import { Loading } from '../components/Loading';
 import { useRequireAuth } from '../hooks/useRequreAuth';
 
 export function Index() {
+  const router = useRouter();
   const auth = useRequireAuth();
 
-  const logout = useCallback(() => {
+  const signOut = useCallback(() => {
     SessionRepository.signOut();
   }, []);
 
   if (!auth.user) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
-    <Flex minHeight={'100vh'}>
+    <Flex
+      minHeight={'100vh'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      direction={'column'}
+    >
       <View>
         <Heading level={3}>ようこそ {auth.user.name} さん</Heading>
-        <Button onPress={logout} variant={'primary'}>
-          ログアウト
-        </Button>
+      </View>
+      <View marginTop={'size-200'}>
+        <ButtonGroup>
+          <Button variant={'primary'} onPress={() => router.push('/party')}>
+            Party
+          </Button>
+          <Button variant={'secondary'}>User</Button>
+          <Button variant={'secondary'} onPress={signOut}>
+            SignOut
+          </Button>
+        </ButtonGroup>
       </View>
     </Flex>
   );

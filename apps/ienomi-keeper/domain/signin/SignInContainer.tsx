@@ -1,5 +1,6 @@
 import React, { FC, useContext, useEffect } from 'react';
 import { Flex, Heading, View } from '@adobe/react-spectrum';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../app/AuthContext';
 import { SignInForm } from './SignInForm';
@@ -24,6 +25,11 @@ export const SignInContainer: FC = () => {
       </View>
       <View>
         <SignInForm />
+      </View>
+      <View marginTop={'size-300'}>
+        <Link href={'/signup'} passHref>
+          Signup
+        </Link>
       </View>
     </Flex>
   );
